@@ -1,8 +1,8 @@
 package fr.xebia.cpele.xebiablog;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
         BlogApi blogApi = retrofit.create(BlogApi.class);
 
-        blogApi.fetchFeed().enqueue(new Callback<Channel>() {
+        blogApi.fetchFeed().enqueue(new Callback<Feed>() {
 
             @Override
-            public void onResponse(@NonNull final Call<Channel> call, @NonNull final Response<Channel> response) {
-                Channel channel = response.body();
-                if (channel != null && channel.items != null) {
-                    for (Item item : channel.items) {
+            public void onResponse(@NonNull final Call<Feed> call, @NonNull final Response<Feed> response) {
+                Feed feed = response.body();
+                Log.d(MainActivity.this.getClass().getSimpleName(), "Feed: " + feed);
+                if (feed != null && feed.channel.items != null) {
+                    for (Item item : feed.channel.items) {
                         Log.d(MainActivity.this.getClass().getSimpleName(), String.valueOf(item));
                     }
                 }
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull final Call<Channel> call, @NonNull final Throwable t) {
+            public void onFailure(@NonNull final Call<Feed> call, @NonNull final Throwable t) {
                 Toast.makeText(MainActivity.this, "There was an error", Toast.LENGTH_SHORT).show();
                 Log.e(MainActivity.this.getClass().getSimpleName(), "Here is an error", t);
             }
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private interface BlogApi {
         @GET("/feed")
-        Call<Channel> fetchFeed();
+        Call<Feed> fetchFeed();
     }
 
 }
