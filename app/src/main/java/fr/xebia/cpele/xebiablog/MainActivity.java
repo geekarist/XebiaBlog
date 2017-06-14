@@ -1,6 +1,8 @@
 package fr.xebia.cpele.xebiablog;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -117,6 +119,14 @@ public class MainActivity extends AppCompatActivity {
 
         void bind(final Item item) {
             mTitle.setText(item.title);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.link));
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }
