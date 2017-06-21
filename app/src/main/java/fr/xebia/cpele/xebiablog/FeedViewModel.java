@@ -25,6 +25,11 @@ public class FeedViewModel extends ViewModel {
 
     public void init() {
 
+        if (mFeed.getValue() != null) {
+            Log.d(getClass().getSimpleName(), "Feed already fetched, no initialization needed");
+            return;
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FEED_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
@@ -48,7 +53,6 @@ public class FeedViewModel extends ViewModel {
                 Log.e(FeedViewModel.class.getSimpleName(), "Here is an error", t);
             }
         });
-
     }
 
     private interface BlogApi {
