@@ -32,18 +32,20 @@ public class FeedViewModel extends ViewModel {
 
         BlogApi blogApi = retrofit.create(BlogApi.class);
 
+        Log.d(getClass().getSimpleName(), "Initializing FeedViewModel");
+
         blogApi.fetchFeed().enqueue(new Callback<Feed>() {
 
             @Override
             public void onResponse(@NonNull final Call<Feed> call, @NonNull final Response<Feed> response) {
                 Feed feed = response.body();
-                Log.d(this.getClass().getSimpleName(), "Feed: " + feed);
+                Log.d(FeedViewModel.class.getSimpleName(), "Feed: " + feed);
                 mFeed.setValue(feed);
             }
 
             @Override
             public void onFailure(@NonNull final Call<Feed> call, @NonNull final Throwable t) {
-                Log.e(this.getClass().getSimpleName(), "Here is an error", t);
+                Log.e(FeedViewModel.class.getSimpleName(), "Here is an error", t);
             }
         });
 
