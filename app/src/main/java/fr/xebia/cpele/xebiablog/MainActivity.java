@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +41,16 @@ public class MainActivity extends LifecycleActivity {
         feedViewModel.getFeed().observe(this, new Observer<Feed>() {
             @Override
             public void onChanged(@Nullable final Feed feed) {
-                if (feed != null && feed.channel.items != null) {
+
+                Log.d(MainActivity.this.getLocalClassName(), "Feed has changed");
+
+                if (feed != null && feed.channel != null && feed.channel.items != null) {
                     for (Item item : feed.channel.items) {
-                        Log.d(this.getClass().getSimpleName(), String.valueOf(item));
+                        Log.d(MainActivity.class.getSimpleName(), String.valueOf(item));
+                        mAdapter.addAll(feed.channel.items);
+                        mAdapter.notifyDataSetChanged();
                     }
                 }
-                Toast.makeText(MainActivity.this, "It's working", Toast.LENGTH_SHORT).show();
             }
         });
     }
