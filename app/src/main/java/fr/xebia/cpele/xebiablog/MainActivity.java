@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class MainActivity extends LifecycleActivity {
             @Override
             public void onChanged(@Nullable final Feed feed) {
 
-                Log.d(MainActivity.this.getLocalClassName(), "Feed has changed");
+                Toast.makeText(MainActivity.this, "Feed has changed", Toast.LENGTH_SHORT).show();
 
                 if (feed != null && feed.channel != null && feed.channel.items != null) {
                     for (Item item : feed.channel.items) {
