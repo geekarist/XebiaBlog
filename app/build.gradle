@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "fr.xebia.cpele.xebiablog"
-        minSdkVersion 16
+        minSdkVersion 24
         //noinspection OldTargetApi
         targetSdkVersion 25
         versionCode 1
