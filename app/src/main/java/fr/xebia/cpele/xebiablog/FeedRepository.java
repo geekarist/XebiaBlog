@@ -15,6 +15,13 @@ class FeedRepository {
     public FeedRepository(BlogApi blogApi) {
 
         mBlogApi = blogApi;
+        Log.d(getClass().getSimpleName(), "Life: FeedRepository: construct");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        Log.d(getClass().getSimpleName(), "Life: FeedRepository: finalize");
     }
 
     public void find(final Callback consumer) {

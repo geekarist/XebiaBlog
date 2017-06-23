@@ -1,6 +1,7 @@
 package fr.xebia.cpele.xebiablog;
 
 import android.app.Application;
+import android.util.Log;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
@@ -19,6 +20,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        Log.d(getClass().getSimpleName(), "Life: App: create");
     }
 
     public BlogApi provideApi() {

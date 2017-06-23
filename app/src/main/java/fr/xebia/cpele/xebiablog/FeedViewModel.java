@@ -9,6 +9,17 @@ public class FeedViewModel extends ViewModel {
 
     private MutableLiveData<Feed> mFeed = new MutableLiveData<>();
 
+    public FeedViewModel() {
+        super();
+        Log.d(getClass().getSimpleName(), "Life: FeedViewModel: construct");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        Log.d(getClass().getSimpleName(), "Life: FeedViewModel: finalize");
+    }
+
     public LiveData<Feed> getFeed() {
         return mFeed;
     }

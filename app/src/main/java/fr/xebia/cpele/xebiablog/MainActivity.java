@@ -27,6 +27,9 @@ public class MainActivity extends LifecycleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d(getClass().getSimpleName(), "Life: MainActivity: create");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -54,6 +57,13 @@ public class MainActivity extends LifecycleActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(getClass().getSimpleName(), "Life: MainActivity: destroy");
     }
 
     private static class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
