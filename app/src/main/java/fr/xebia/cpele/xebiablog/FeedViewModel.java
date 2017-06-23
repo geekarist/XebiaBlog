@@ -22,7 +22,6 @@ public class FeedViewModel extends ViewModel {
 
         FeedRepository repo = new FeedRepository(App.instance().provideApi());
         repo.find(new FeedRepository.Callback() {
-
             @Override
             public void accept(Feed feed) {
                 mFeed.setValue(feed);

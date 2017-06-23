@@ -10,9 +10,9 @@ import retrofit2.Response;
 
 class FeedRepository {
 
-    private App.BlogApi mBlogApi;
+    private BlogApi mBlogApi;
 
-    public FeedRepository(App.BlogApi blogApi) {
+    public FeedRepository(BlogApi blogApi) {
 
         mBlogApi = blogApi;
     }
