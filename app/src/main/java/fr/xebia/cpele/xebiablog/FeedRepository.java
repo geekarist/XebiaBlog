@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import retrofit2.Call;
@@ -15,6 +16,7 @@ class FeedRepository {
     private BlogApi mBlogApi;
     @Nullable
     private Feed mCachedFeed;
+    private long mFetchDate;
 
     public FeedRepository(@NonNull BlogApi blogApi) {
 
@@ -32,7 +34,7 @@ class FeedRepository {
 
         Log.d(getClass().getSimpleName(), "Initializing FeedViewModel");
 
-        if (mCachedFeed != null) consumer.accept(mCachedFeed);
+        if (isFeedCached()) consumer.accept(mCachedFeed);
 
         mBlogApi.fetchFeed().enqueue(new retrofit2.Callback<Feed>() {
 
@@ -40,6 +42,7 @@ class FeedRepository {
             public void onResponse(@NonNull final Call<Feed> call, @NonNull final Response<Feed> response) {
                 mCachedFeed = response.body();
                 Log.d(FeedViewModel.class.getSimpleName(), "Feed: " + mCachedFeed);
+                mFetchDate = System.currentTimeMillis();
                 consumer.accept(mCachedFeed);
             }
 
@@ -48,6 +51,13 @@ class FeedRepository {
                 Log.e(FeedViewModel.class.getSimpleName(), "Here is an error", t);
             }
         });
+    }
+
+    private boolean isFeedCached() {
+        long millisSinceFetchDate = System.currentTimeMillis() - mFetchDate;
+        long expirationDelayInMillis = TimeUnit.MINUTES.toMillis(60);
+        boolean cacheExpired = millisSinceFetchDate < expirationDelayInMillis;
+        return mCachedFeed != null && cacheExpired;
     }
 
     public interface Callback extends Consumer<Feed> {
