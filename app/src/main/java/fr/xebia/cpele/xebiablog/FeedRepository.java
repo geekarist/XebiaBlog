@@ -32,23 +32,27 @@ class FeedRepository {
 
     public void find(final Callback consumer) {
 
-        Log.d(getClass().getSimpleName(), "Initializing FeedViewModel");
+        Log.d(getClass().getSimpleName(), "Finding feed");
 
-        if (isFeedCached()) consumer.accept(mCachedFeed);
+        if (isFeedCached()) {
+            Log.d(getClass().getSimpleName(), "Feed is in cache");
+            consumer.accept(mCachedFeed);
+            return;
+        }
 
         mBlogApi.fetchFeed().enqueue(new retrofit2.Callback<Feed>() {
 
             @Override
             public void onResponse(@NonNull final Call<Feed> call, @NonNull final Response<Feed> response) {
                 mCachedFeed = response.body();
-                Log.d(FeedViewModel.class.getSimpleName(), "Feed: " + mCachedFeed);
+                Log.d(FeedRepository.this.getClass().getSimpleName(), "Feed: " + mCachedFeed);
                 mFetchDate = System.currentTimeMillis();
                 consumer.accept(mCachedFeed);
             }
 
             @Override
             public void onFailure(@NonNull final Call<Feed> call, @NonNull final Throwable t) {
-                Log.e(FeedViewModel.class.getSimpleName(), "Here is an error", t);
+                Log.e(FeedRepository.this.getClass().getSimpleName(), "Here is an error", t);
             }
         });
     }
