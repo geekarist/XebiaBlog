@@ -3,15 +3,20 @@ package fr.xebia.cpele.xebiablog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 public class FeedViewModel extends ViewModel {
 
+    @NonNull
     private MutableLiveData<Feed> mFeed = new MutableLiveData<>();
+    @NonNull
+    private FeedRepository mFeedRepository;
 
     public FeedViewModel() {
         super();
         Log.d(getClass().getSimpleName(), "Life: FeedViewModel: construct");
+        mFeedRepository = App.instance().provideFeedRepository();
     }
 
     @Override
@@ -26,13 +31,7 @@ public class FeedViewModel extends ViewModel {
 
     public void init() {
 
-        if (mFeed.getValue() != null) {
-            Log.d(getClass().getSimpleName(), "Feed already fetched, no initialization needed");
-            return;
-        }
-
-        FeedRepository repo = new FeedRepository(App.instance().provideApi());
-        repo.find(new FeedRepository.Callback() {
+        mFeedRepository.find(new FeedRepository.Callback() {
             @Override
             public void accept(Feed feed) {
                 mFeed.setValue(feed);

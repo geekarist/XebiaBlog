@@ -11,6 +11,7 @@ public class App extends Application {
     private static App mInstance;
 
     private BlogApi mBlogApi;
+    private FeedRepository mFeedRepository;
 
     public static App instance() {
         return mInstance;
@@ -34,5 +35,12 @@ public class App extends Application {
             mBlogApi = retrofit.create(BlogApi.class);
         }
         return mBlogApi;
+    }
+
+    public FeedRepository provideFeedRepository() {
+        if (mFeedRepository == null) {
+            mFeedRepository = new FeedRepository(provideApi());
+        }
+        return mFeedRepository;
     }
 }
