@@ -1,6 +1,7 @@
 package fr.xebia.cpele.xebiablog;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.function.Consumer;
@@ -10,9 +11,12 @@ import retrofit2.Response;
 
 class FeedRepository {
 
+    @NonNull
     private BlogApi mBlogApi;
+    @Nullable
+    private Feed mCachedFeed;
 
-    public FeedRepository(BlogApi blogApi) {
+    public FeedRepository(@NonNull BlogApi blogApi) {
 
         mBlogApi = blogApi;
         Log.d(getClass().getSimpleName(), "Life: FeedRepository: construct");
@@ -28,13 +32,15 @@ class FeedRepository {
 
         Log.d(getClass().getSimpleName(), "Initializing FeedViewModel");
 
+        if (mCachedFeed != null) consumer.accept(mCachedFeed);
+
         mBlogApi.fetchFeed().enqueue(new retrofit2.Callback<Feed>() {
 
             @Override
             public void onResponse(@NonNull final Call<Feed> call, @NonNull final Response<Feed> response) {
-                Feed feed = response.body();
-                Log.d(FeedViewModel.class.getSimpleName(), "Feed: " + feed);
-                consumer.accept(feed);
+                mCachedFeed = response.body();
+                Log.d(FeedViewModel.class.getSimpleName(), "Feed: " + mCachedFeed);
+                consumer.accept(mCachedFeed);
             }
 
             @Override
