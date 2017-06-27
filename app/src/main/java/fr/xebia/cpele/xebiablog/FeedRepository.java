@@ -12,6 +12,8 @@ import retrofit2.Response;
 
 class FeedRepository {
 
+    private static final int CACHE_EXPIRATION_IN_MIN = BuildConfig.DEBUG ? 1 : 60;
+
     @NonNull
     private BlogApi mBlogApi;
     @Nullable
@@ -40,6 +42,8 @@ class FeedRepository {
             return;
         }
 
+        Log.d(getClass().getSimpleName(), "Cache has expired");
+
         mBlogApi.fetchFeed().enqueue(new retrofit2.Callback<Feed>() {
 
             @Override
@@ -59,7 +63,7 @@ class FeedRepository {
 
     private boolean isFeedCached() {
         long millisSinceFetchDate = System.currentTimeMillis() - mFetchDate;
-        long expirationDelayInMillis = TimeUnit.MINUTES.toMillis(60);
+        long expirationDelayInMillis = TimeUnit.MINUTES.toMillis(CACHE_EXPIRATION_IN_MIN);
         boolean cacheExpired = millisSinceFetchDate < expirationDelayInMillis;
         return mCachedFeed != null && cacheExpired;
     }
