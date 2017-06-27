@@ -64,8 +64,8 @@ class FeedRepository {
     private boolean isFeedCached() {
         long millisSinceFetchDate = System.currentTimeMillis() - mFetchDate;
         long expirationDelayInMillis = TimeUnit.MINUTES.toMillis(CACHE_EXPIRATION_IN_MIN);
-        boolean cacheExpired = millisSinceFetchDate < expirationDelayInMillis;
-        return mCachedFeed != null && cacheExpired;
+        boolean cacheValid = millisSinceFetchDate < expirationDelayInMillis;
+        return mCachedFeed != null && cacheValid;
     }
 
     interface Callback extends Consumer<Feed> {
