@@ -4,6 +4,7 @@ import org.simpleframework.xml.ElementList;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 class Channel {
 
     @ElementList(inline = true)

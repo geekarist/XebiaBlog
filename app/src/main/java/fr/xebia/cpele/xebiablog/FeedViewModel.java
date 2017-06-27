@@ -6,12 +6,12 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-public class FeedViewModel extends ViewModel {
+class FeedViewModel extends ViewModel {
 
     @NonNull
-    private MutableLiveData<Feed> mFeed = new MutableLiveData<>();
+    private final MutableLiveData<Feed> mFeed = new MutableLiveData<>();
     @NonNull
-    private FeedRepository mFeedRepository;
+    private final FeedRepository mFeedRepository;
 
     public FeedViewModel() {
         super();
@@ -25,11 +25,11 @@ public class FeedViewModel extends ViewModel {
         Log.d(getClass().getSimpleName(), "Life: FeedViewModel: finalize");
     }
 
-    public LiveData<Feed> getFeed() {
+    LiveData<Feed> getFeed() {
         return mFeed;
     }
 
-    public void init() {
+    void init() {
 
         mFeedRepository.find(new FeedRepository.Callback() {
             @Override

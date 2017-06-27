@@ -2,6 +2,7 @@ package fr.xebia.cpele.xebiablog;
 
 import org.simpleframework.xml.Element;
 
+@SuppressWarnings("unused")
 @Element(name = "item")
 class Item {
 

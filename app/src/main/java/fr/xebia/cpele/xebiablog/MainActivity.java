@@ -69,7 +69,7 @@ public class MainActivity extends LifecycleActivity {
     private static class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
         @NonNull
-        private List<Item> mItems = new ArrayList<>();
+        private final List<Item> mItems = new ArrayList<>();
 
         @Override
         public ItemViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {

@@ -15,12 +15,12 @@ class FeedRepository {
     private static final int CACHE_EXPIRATION_IN_MIN = BuildConfig.DEBUG ? 1 : 60;
 
     @NonNull
-    private BlogApi mBlogApi;
+    private final BlogApi mBlogApi;
     @Nullable
     private Feed mCachedFeed;
     private long mFetchDate;
 
-    public FeedRepository(@NonNull BlogApi blogApi) {
+    FeedRepository(@NonNull BlogApi blogApi) {
 
         mBlogApi = blogApi;
         Log.d(getClass().getSimpleName(), "Life: FeedRepository: construct");
@@ -32,7 +32,7 @@ class FeedRepository {
         Log.d(getClass().getSimpleName(), "Life: FeedRepository: finalize");
     }
 
-    public void find(final Callback consumer) {
+    void find(final Callback consumer) {
 
         Log.d(getClass().getSimpleName(), "Finding feed");
 
@@ -68,6 +68,6 @@ class FeedRepository {
         return mCachedFeed != null && cacheExpired;
     }
 
-    public interface Callback extends Consumer<Feed> {
+    interface Callback extends Consumer<Feed> {
     }
 }

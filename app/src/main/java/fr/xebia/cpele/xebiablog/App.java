@@ -24,7 +24,7 @@ public class App extends Application {
         Log.d(getClass().getSimpleName(), "Life: App: create");
     }
 
-    public BlogApi provideApi() {
+    private BlogApi provideApi() {
 
         if (mBlogApi == null) {
             Retrofit retrofit = new Retrofit.Builder()
