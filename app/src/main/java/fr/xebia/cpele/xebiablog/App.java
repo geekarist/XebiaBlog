@@ -3,6 +3,10 @@ package fr.xebia.cpele.xebiablog;
 import android.app.Application;
 import android.util.Log;
 
+import java.io.File;
+
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -27,8 +31,16 @@ public class App extends Application {
     private BlogApi provideApi() {
 
         if (mBlogApi == null) {
+
+            File cacheDir = new File(getCacheDir(), "http");
+            // 10 Mib cache
+            int cacheSize = 10 * 1024 * 1024;
+            Cache cache = new Cache(cacheDir, cacheSize);
+            OkHttpClient httpClient = new OkHttpClient.Builder().cache(cache).build();
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://blog.xebia.fr")
+                    .client(httpClient)
                     .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
                     .build();
 
