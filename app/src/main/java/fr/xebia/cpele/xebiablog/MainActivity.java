@@ -1,12 +1,14 @@
 package fr.xebia.cpele.xebiablog;
 
 import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,11 +46,13 @@ public class MainActivity extends LifecycleActivity {
 
             Toast.makeText(MainActivity.this, "Feed has changed", Toast.LENGTH_SHORT).show();
 
-            if (feed != null && feed.channel != null && feed.channel.items != null) {
-                for (Item item : feed.channel.items) {
-                    Log.d(MainActivity.class.getSimpleName(), String.valueOf(item));
-                    mAdapter.addAll(feed.channel.items);
-                    mAdapter.notifyDataSetChanged();
+                if (feed != null && feed.channel != null && feed.channel.items != null) {
+                    for (Item item : feed.channel.items) {
+                        Log.d(MainActivity.class.getSimpleName(), String.valueOf(item));
+                        mAdapter.clear();
+                        mAdapter.addAll(feed.channel.items);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
@@ -87,6 +91,10 @@ public class MainActivity extends LifecycleActivity {
 
         void addAll(@NonNull final List<Item> items) {
             mItems.addAll(items);
+        }
+
+        void clear() {
+            mItems.clear();
         }
     }
 
