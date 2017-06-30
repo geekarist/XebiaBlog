@@ -30,12 +30,6 @@ class FeedViewModel extends ViewModel {
     }
 
     void init() {
-
-        mFeedRepository.find(new FeedRepository.Callback() {
-            @Override
-            public void accept(Feed feed) {
-                mFeed.setValue(feed);
-            }
-        });
+        mFeedRepository.find(mFeed::setValue);
     }
 }
