@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-class FeedViewModel extends ViewModel {
+public class FeedViewModel extends ViewModel {
 
     @NonNull
     private final MutableLiveData<Feed> mFeed = new MutableLiveData<>();
