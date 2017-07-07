@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 public class DetailActivity extends LifecycleActivity {
@@ -18,7 +19,11 @@ public class DetailActivity extends LifecycleActivity {
         setContentView(R.layout.activity_detail);
 
         TextView titleView = (TextView) findViewById(R.id.detail_title);
-        titleView.setText(getIntent().getStringExtra(EXTRA_URL));
+        String pageUrl = getIntent().getStringExtra(EXTRA_URL);
+        titleView.setText(pageUrl);
+
+        WebView pageView = (WebView) findViewById(R.id.detail_page);
+        pageView.loadUrl(pageUrl);
     }
 
     public static void launch(Context context, String url) {
