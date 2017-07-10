@@ -23,6 +23,8 @@ public class DetailActivity
         implements LoaderManager.LoaderCallbacks<File> {
 
     private static final String EXTRA_URL = "EXTRA_URL";
+    private static final int LOADER_ID = 51;
+
     private WebView mPageView;
 
     @Override
@@ -36,6 +38,8 @@ public class DetailActivity
         titleView.setText(pageUrl);
 
         mPageView = (WebView) findViewById(R.id.detail_page);
+        
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     private String getPageUrl() {
