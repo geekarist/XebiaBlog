@@ -57,7 +57,7 @@ public class DetailActivity
     @Override
     public Loader<File> onCreateLoader(int id, Bundle args) {
         String pageUrl = getPageUrl();
-        String outputDirPath = getCacheDir().getPath() + File.pathSeparator + "pages";
+        String outputDirPath = getCacheDir().getPath() + File.separator + "pages";
         return new PageLoader(DetailActivity.this, pageUrl, outputDirPath);
     }
 
@@ -97,7 +97,7 @@ public class DetailActivity
         public File loadInBackground() {
             PageSaver pageSaver = new PageSaver(new PageSaveCallback());
             pageSaver.getPage(mUrl, mOutputDirPath, "index.html");
-            String pageIndexPath = mOutputDirPath + File.pathSeparator + "index.html";
+            String pageIndexPath = mOutputDirPath + File.separator + "index.html";
             return new File(pageIndexPath);
         }
     }
