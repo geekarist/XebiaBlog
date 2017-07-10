@@ -38,8 +38,10 @@ public class DetailActivity
         titleView.setText(pageUrl);
 
         mPageView = (WebView) findViewById(R.id.detail_page);
-        
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+
+        getSupportLoaderManager()
+                .initLoader(LOADER_ID, null, this)
+                .forceLoad();
     }
 
     private String getPageUrl() {
@@ -98,7 +100,6 @@ public class DetailActivity
             String pageIndexPath = mOutputDirPath + File.pathSeparator + "index.html";
             return new File(pageIndexPath);
         }
-
     }
 
     private static class PageSaveCallback implements PageSaver.EventCallback {
