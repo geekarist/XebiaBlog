@@ -1,0 +1,76 @@
+package fr.xebia.cpele.xebiablog;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import java.io.File;
+import java.util.concurrent.ExecutorService;
+
+import jonas.tool.save_page.PageSaver;
+
+class PageRepository {
+
+    @NonNull
+    private final ExecutorService mExecutorService;
+    @NonNull
+    private Context mContext;
+
+    PageRepository(@NonNull ExecutorService executorService, @NonNull Context context) {
+        mExecutorService = executorService;
+        mContext = context;
+    }
+
+    LiveData<File> findOne(String url) {
+
+        MutableLiveData<File> liveData = new MutableLiveData<>();
+
+        mExecutorService.submit(() -> {
+            PageSaver pageSaver = new PageSaver(new DummyPageSaveCallback());
+            String outputDirPath = mContext.getCacheDir().getPath()
+                    + File.separator + "pages"
+                    + File.separator + toUnsigned(url.hashCode());
+            pageSaver.getPage(url, outputDirPath, "index.html");
+            String pageIndexPath = outputDirPath + File.separator + "index.html";
+            liveData.setValue(new File(pageIndexPath));
+        });
+
+        return liveData;
+    }
+
+    private static long toUnsigned(int signed) {
+        return signed & 0x00000000ffffffffL;
+    }
+
+    private static class DummyPageSaveCallback implements PageSaver.EventCallback {
+
+        @Override
+        public void onProgressChanged(final int i, final int i1, final boolean b) {
+        }
+
+        @Override
+        public void onProgressMessage(final String s) {
+        }
+
+        @Override
+        public void onPageTitleAvailable(final String s) {
+        }
+
+        @Override
+        public void onLogMessage(final String s) {
+        }
+
+        @Override
+        public void onError(final Throwable throwable) {
+        }
+
+        @Override
+        public void onError(final String s) {
+        }
+
+        @Override
+        public void onFatalError(final Throwable throwable, final String s) {
+        }
+    }
+}

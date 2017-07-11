@@ -4,6 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -16,6 +18,8 @@ public class App extends Application {
 
     private BlogApi mBlogApi;
     private FeedRepository mFeedRepository;
+    private PageRepository mPageRepository;
+    private ExecutorService mExecutorService;
 
     public static App instance() {
         return mInstance;
@@ -54,5 +58,20 @@ public class App extends Application {
             mFeedRepository = new FeedRepository(provideApi());
         }
         return mFeedRepository;
+    }
+
+    public PageRepository providePageRepository() {
+
+        if (mPageRepository == null) {
+            mPageRepository = new PageRepository(provideExecutorService(), this);
+        }
+        return mPageRepository;
+    }
+
+    private ExecutorService provideExecutorService() {
+        if (mExecutorService == null) {
+            mExecutorService = Executors.newSingleThreadExecutor();
+        }
+        return mExecutorService;
     }
 }
