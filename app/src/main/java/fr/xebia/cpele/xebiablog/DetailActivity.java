@@ -57,8 +57,14 @@ public class DetailActivity
     @Override
     public Loader<File> onCreateLoader(int id, Bundle args) {
         String pageUrl = getPageUrl();
-        String outputDirPath = getCacheDir().getPath() + File.separator + "pages";
+        String outputDirPath = getCacheDir().getPath()
+                + File.separator + "pages"
+                + File.separator + toUnsigned(pageUrl.hashCode());
         return new PageLoader(DetailActivity.this, pageUrl, outputDirPath);
+    }
+
+    private long toUnsigned(int signed) {
+        return signed & 0x00000000ffffffffL;
     }
 
     @Override
