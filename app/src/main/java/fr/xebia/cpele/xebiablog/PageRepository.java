@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
 import jonas.tool.save_page.PageSaver;
@@ -17,12 +18,18 @@ class PageRepository {
     @NonNull
     private Context mContext;
 
+    @NonNull
+    private HashMap<String, LiveData<File>> mCache;
+
     PageRepository(@NonNull ExecutorService executorService, @NonNull Context context) {
         mExecutorService = executorService;
         mContext = context;
+        mCache = new HashMap<>();
     }
 
     LiveData<File> findOne(String url) {
+
+        if (mCache.get(url) != null) return mCache.get(url);
 
         MutableLiveData<File> liveData = new MutableLiveData<>();
 
@@ -36,6 +43,7 @@ class PageRepository {
             liveData.setValue(new File(pageIndexPath));
         });
 
+        mCache.put(url, liveData);
         return liveData;
     }
 
