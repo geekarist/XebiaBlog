@@ -3,6 +3,8 @@ package fr.xebia.cpele.xebiablog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import java.io.File;
@@ -34,13 +36,17 @@ class PageRepository {
         MutableLiveData<File> liveData = new MutableLiveData<>();
 
         mExecutorService.submit(() -> {
+
             PageSaver pageSaver = new PageSaver(new DummyPageSaveCallback());
             String outputDirPath = mContext.getCacheDir().getPath()
                     + File.separator + "pages"
                     + File.separator + toUnsigned(url.hashCode());
             pageSaver.getPage(url, outputDirPath, "index.html");
+
             String pageIndexPath = outputDirPath + File.separator + "index.html";
-            liveData.setValue(new File(pageIndexPath));
+            File pageIndexFile = new File(pageIndexPath);
+            Looper mainLooper = mContext.getMainLooper();
+            new Handler(mainLooper).post(() -> liveData.setValue(pageIndexFile));
         });
 
         mCache.put(url, liveData);
