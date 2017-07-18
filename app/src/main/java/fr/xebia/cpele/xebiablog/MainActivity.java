@@ -36,9 +36,7 @@ public class MainActivity extends LifecycleActivity {
 
         FeedViewModel feedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
 
-        feedViewModel.init();
-
-        feedViewModel.getFeed().observe(this, feed -> {
+        feedViewModel.get().observe(this, feed -> {
 
             Toast.makeText(MainActivity.this, "Feed has changed", Toast.LENGTH_SHORT).show();
 
@@ -70,6 +68,7 @@ public class MainActivity extends LifecycleActivity {
 
             Context context = parent.getContext();
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            assert layoutInflater != null;
             View view = layoutInflater.inflate(R.layout.layout_item, parent, false);
             return new ItemViewHolder(view);
         }

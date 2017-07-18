@@ -8,8 +8,7 @@ import android.util.Log;
 
 public class FeedViewModel extends ViewModel {
 
-    @NonNull
-    private final MutableLiveData<Feed> mFeed = new MutableLiveData<>();
+    private MutableLiveData<Feed> mFeed;
     @NonNull
     private final FeedRepository mFeedRepository;
 
@@ -25,11 +24,9 @@ public class FeedViewModel extends ViewModel {
         Log.d(getClass().getSimpleName(), "Life: FeedViewModel: finalize");
     }
 
-    LiveData<Feed> getFeed() {
-        return mFeed;
-    }
-
-    void init() {
+    LiveData<Feed> get() {
+        if (mFeed == null) mFeed = new MutableLiveData<>();
         mFeedRepository.find(mFeed::setValue);
+        return mFeed;
     }
 }
