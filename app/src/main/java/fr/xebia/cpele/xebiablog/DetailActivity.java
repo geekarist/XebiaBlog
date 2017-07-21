@@ -3,9 +3,11 @@ package fr.xebia.cpele.xebiablog;
 import android.arch.lifecycle.LifecycleActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -32,11 +34,15 @@ public class DetailActivity
 
         mPageView = (WebView) findViewById(R.id.detail_page);
 
-        PageRepository pageRepository = App.instance().providePageRepository();
+        ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
+        assert connectivityManager != null;
+        if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
+            mPageView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        } else {
+            mPageView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        }
 
-        pageRepository
-                .findOne(getPageUrl())
-                .observe(this, data -> mPageView.loadUrl(urlOfFile(data)));
+        mPageView.loadUrl(getPageUrl());
     }
 
     private String getPageUrl() {
@@ -47,15 +53,5 @@ public class DetailActivity
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(DetailActivity.EXTRA_URL, url);
         context.startActivity(intent);
-    }
-
-    private String urlOfFile(final File data) {
-        URL url = null;
-        try {
-            url = data.toURI().toURL();
-        } catch (MalformedURLException e) {
-            Log.e(DetailActivity.this.getLocalClassName(), "Malformed URL", e);
-        }
-        return String.valueOf(url);
     }
 }
