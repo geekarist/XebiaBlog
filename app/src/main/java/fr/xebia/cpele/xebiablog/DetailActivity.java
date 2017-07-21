@@ -37,9 +37,9 @@ public class DetailActivity
         ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
         assert connectivityManager != null;
         if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
-            mPageView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        } else {
             mPageView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else {
+            mPageView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
         mPageView.loadUrl(getPageUrl());
