@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.webkit.WebSettings;
@@ -18,6 +19,7 @@ public class DetailActivity
     private static final String EXTRA_URL = "EXTRA_URL";
 
     private WebView mPageView;
+    private NetworkInfo mActiveNetworkInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,15 +33,25 @@ public class DetailActivity
 
         mPageView = (WebView) findViewById(R.id.detail_page);
 
-        ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
-        assert connectivityManager != null;
-        if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
+        initNetworkInfo();
+
+        if (isOnline()) {
             mPageView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         } else {
             mPageView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
         mPageView.loadUrl(getPageUrl());
+    }
+
+    private void initNetworkInfo() {
+        ConnectivityManager connectivityManager = getSystemService(ConnectivityManager.class);
+        assert connectivityManager != null;
+        mActiveNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    }
+
+    private boolean isOnline() {
+        return mActiveNetworkInfo != null && mActiveNetworkInfo.isConnected();
     }
 
     private String getPageUrl() {
