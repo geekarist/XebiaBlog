@@ -1,13 +1,14 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.model.api;
 
 import org.simpleframework.xml.ElementList;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
-class Channel {
+public class Channel {
 
     @ElementList(inline = true)
+    public
     List<Item> items;
 
     @Override

@@ -1,4 +1,4 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 
 import jonas.tool.save_page.PageSaver;
 
-class PageRepository {
+public class PageRepository {
 
     @NonNull
     private final ExecutorService mExecutorService;
@@ -23,7 +23,7 @@ class PageRepository {
     @NonNull
     private HashMap<String, LiveData<File>> mCache;
 
-    PageRepository(@NonNull ExecutorService executorService, @NonNull Context context) {
+    public PageRepository(@NonNull ExecutorService executorService, @NonNull Context context) {
         mExecutorService = executorService;
         mContext = context;
         mCache = new HashMap<>();

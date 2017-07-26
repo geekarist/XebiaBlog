@@ -1,13 +1,14 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.model.api;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @SuppressWarnings("unused")
 @Root(name = "rss")
-class Feed {
+public class Feed {
 
     @Element(name = "channel")
+    public
     Channel channel;
 
     @Override

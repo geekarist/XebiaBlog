@@ -7,6 +7,9 @@ import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import fr.xebia.cpele.xebiablog.model.api.BlogApi;
+import fr.xebia.cpele.xebiablog.model.FeedRepository;
+import fr.xebia.cpele.xebiablog.model.PageRepository;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

@@ -1,4 +1,4 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.view;
 
 import android.arch.lifecycle.LifecycleActivity;
 import android.content.Context;
@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import fr.xebia.cpele.xebiablog.R;
 
 public class DetailActivity
         extends LifecycleActivity {

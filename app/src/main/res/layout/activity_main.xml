@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.xebia.cpele.xebiablog.MainActivity">
+    tools:context="fr.xebia.cpele.xebiablog.view.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_rv_items"

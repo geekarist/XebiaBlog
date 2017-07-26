@@ -1,14 +1,16 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.model.api;
 
 import org.simpleframework.xml.Element;
 
 @SuppressWarnings("unused")
 @Element(name = "item")
-class Item {
+public class Item {
 
     @Element(name = "title")
+    public
     String title;
     @Element(name = "link")
+    public
     String link;
 
     @Override

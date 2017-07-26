@@ -1,4 +1,4 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,10 +7,13 @@ import android.util.Log;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import fr.xebia.cpele.xebiablog.BuildConfig;
+import fr.xebia.cpele.xebiablog.model.api.BlogApi;
+import fr.xebia.cpele.xebiablog.model.api.Feed;
 import retrofit2.Call;
 import retrofit2.Response;
 
-class FeedRepository {
+public class FeedRepository {
 
     private static final int CACHE_EXPIRATION_IN_MIN = BuildConfig.DEBUG ? 1 : 60;
 
@@ -20,7 +23,7 @@ class FeedRepository {
     private Feed mCachedFeed;
     private long mFetchDate;
 
-    FeedRepository(@NonNull BlogApi blogApi) {
+    public FeedRepository(@NonNull BlogApi blogApi) {
 
         mBlogApi = blogApi;
         Log.d(getClass().getSimpleName(), "Life: FeedRepository: construct");
@@ -32,7 +35,7 @@ class FeedRepository {
         Log.d(getClass().getSimpleName(), "Life: FeedRepository: finalize");
     }
 
-    void find(final Callback consumer) {
+    public void find(final Callback consumer) {
 
         Log.d(getClass().getSimpleName(), "Finding feed");
 
@@ -68,6 +71,6 @@ class FeedRepository {
         return mCachedFeed != null && cacheValid;
     }
 
-    interface Callback extends Consumer<Feed> {
+    public interface Callback extends Consumer<Feed> {
     }
 }

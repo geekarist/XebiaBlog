@@ -1,4 +1,4 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.view;
 
 import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,6 +16,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.xebia.cpele.xebiablog.viewmodel.FeedViewModel;
+import fr.xebia.cpele.xebiablog.R;
+import fr.xebia.cpele.xebiablog.model.api.Item;
 
 public class MainActivity extends LifecycleActivity {
 

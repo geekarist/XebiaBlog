@@ -1,10 +1,14 @@
-package fr.xebia.cpele.xebiablog;
+package fr.xebia.cpele.xebiablog.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import fr.xebia.cpele.xebiablog.App;
+import fr.xebia.cpele.xebiablog.model.api.Feed;
+import fr.xebia.cpele.xebiablog.model.FeedRepository;
 
 public class FeedViewModel extends ViewModel {
 
@@ -24,7 +28,7 @@ public class FeedViewModel extends ViewModel {
         Log.d(getClass().getSimpleName(), "Life: FeedViewModel: finalize");
     }
 
-    LiveData<Feed> get() {
+    public LiveData<Feed> get() {
         if (mFeed == null) mFeed = new MutableLiveData<>();
         mFeedRepository.find(mFeed::setValue);
         return mFeed;
