@@ -46,7 +46,7 @@ public class App extends Application {
             OkHttpClient httpClient = new OkHttpClient.Builder().cache(cache).build();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://blog.xebia.fr")
+                    .baseUrl("http://www.01net.com")
                     .client(httpClient)
                     .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
                     .build();
