@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import java.io.File;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
@@ -29,12 +30,24 @@ public class PageRepository {
         mCache = new HashMap<>();
     }
 
-    LiveData<File> findOne(String url) {
+    /**
+     * Lookup the cache for a cached page.
+     *
+     * If a page is cached, it corresponds to a local file, return the local url.
+     *
+     * If not, return the remote page but fetch the page to disk so that the local page can
+     * be cached for next time.
+     *
+     * @param url the url to lookup
+     */
+    public LiveData<File> findOne(String url) {
 
         if (mCache.get(url) != null) return mCache.get(url);
 
-        MutableLiveData<File> liveData = new MutableLiveData<>();
+        MutableLiveData<File> remoteData = new MutableLiveData<>();
+        remoteData.setValue(new File(URI.create(url)));
 
+        MutableLiveData<File> localData = new MutableLiveData<>();
         mExecutorService.submit(() -> {
 
             PageSaver pageSaver = new PageSaver(new DummyPageSaveCallback());
@@ -46,11 +59,11 @@ public class PageRepository {
             String pageIndexPath = outputDirPath + File.separator + "index.html";
             File pageIndexFile = new File(pageIndexPath);
             Looper mainLooper = mContext.getMainLooper();
-            new Handler(mainLooper).post(() -> liveData.setValue(pageIndexFile));
+            new Handler(mainLooper).post(() -> localData.setValue(pageIndexFile));
         });
 
-        mCache.put(url, liveData);
-        return liveData;
+        mCache.put(url, localData);
+        return remoteData;
     }
 
     private static long toUnsigned(int signed) {

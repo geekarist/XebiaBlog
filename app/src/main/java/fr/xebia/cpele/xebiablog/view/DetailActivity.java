@@ -11,7 +11,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+
+import fr.xebia.cpele.xebiablog.App;
 import fr.xebia.cpele.xebiablog.R;
+import fr.xebia.cpele.xebiablog.model.PageRepository;
 
 public class DetailActivity
         extends LifecycleActivity {
@@ -41,7 +46,17 @@ public class DetailActivity
             mPageView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
 
-        mPageView.loadUrl(getPageUrl());
+        PageRepository pageRepository = App.instance().providePageRepository();
+        pageRepository.findOne(getPageUrl()).observe(this, file -> {
+            try {
+                if (file == null) return;
+                URI uri = file.toURI();
+                String url = String.valueOf(uri.toURL());
+                mPageView.loadUrl(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void initNetworkInfo() {
