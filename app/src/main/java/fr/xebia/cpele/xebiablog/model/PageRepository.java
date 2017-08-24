@@ -3,6 +3,7 @@ package fr.xebia.cpele.xebiablog.model;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -22,7 +23,7 @@ public class PageRepository {
     private Context mContext;
 
     @NonNull
-    private HashMap<String, LiveData<File>> mCache;
+    private HashMap<String, LiveData<Uri>> mCache;
 
     public PageRepository(@NonNull ExecutorService executorService, @NonNull Context context) {
         mExecutorService = executorService;
@@ -40,14 +41,14 @@ public class PageRepository {
      *
      * @param url the url to lookup
      */
-    public LiveData<File> findOne(String url) {
+    public LiveData<Uri> findOne(String url) {
 
         if (mCache.get(url) != null) return mCache.get(url);
 
-        MutableLiveData<File> remoteData = new MutableLiveData<>();
-        remoteData.setValue(new File(URI.create(url)));
+        MutableLiveData<Uri> remoteData = new MutableLiveData<>();
+        remoteData.setValue(Uri.parse(url));
 
-        MutableLiveData<File> localData = new MutableLiveData<>();
+        MutableLiveData<Uri> localData = new MutableLiveData<>();
         mExecutorService.submit(() -> {
 
             PageSaver pageSaver = new PageSaver(new DummyPageSaveCallback());
@@ -59,7 +60,9 @@ public class PageRepository {
             String pageIndexPath = outputDirPath + File.separator + "index.html";
             File pageIndexFile = new File(pageIndexPath);
             Looper mainLooper = mContext.getMainLooper();
-            new Handler(mainLooper).post(() -> localData.setValue(pageIndexFile));
+            String uriString = String.valueOf(pageIndexFile.toURI());
+            Uri uri = Uri.parse(uriString);
+            new Handler(mainLooper).post(() -> localData.setValue(uri));
         });
 
         mCache.put(url, localData);

@@ -47,15 +47,9 @@ public class DetailActivity
         }
 
         PageRepository pageRepository = App.instance().providePageRepository();
-        pageRepository.findOne(getPageUrl()).observe(this, file -> {
-            try {
-                if (file == null) return;
-                URI uri = file.toURI();
-                String url = String.valueOf(uri.toURL());
-                mPageView.loadUrl(url);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        pageRepository.findOne(getPageUrl()).observe(this, uri -> {
+            String url = String.valueOf(uri);
+            mPageView.loadUrl(url);
         });
     }
 
