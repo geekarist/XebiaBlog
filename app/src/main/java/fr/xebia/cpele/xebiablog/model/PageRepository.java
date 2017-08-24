@@ -63,9 +63,9 @@ public class PageRepository {
             String uriString = String.valueOf(pageIndexFile.toURI());
             Uri uri = Uri.parse(uriString);
             new Handler(mainLooper).post(() -> localData.setValue(uri));
+            if (pageIndexFile.exists()) mCache.put(url, localData);
         });
 
-        mCache.put(url, localData);
         return remoteData;
     }
 
